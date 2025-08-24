@@ -1,7 +1,14 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-function generateAccessToken () {
-
+function generateAccessToken (payload, expiresIn = '1h') {
+    const token = jwt.sign(payload, process.env.JST_SECRET, { expiresIn });
+    return token;
 }
 
-export default generateAccessToken;
+function generateRefereshToken (payload, expiresIn = '7d') {
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
+}
+
+export { generateAccessToken, generateAccessToken };

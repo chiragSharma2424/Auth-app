@@ -1,4 +1,6 @@
 import User from "../models/user-model.js";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 async function signup(req, res) {
     try {
@@ -17,10 +19,19 @@ async function signup(req, res) {
             })
         }
 
+        const hashedPass = await bcrypt.hash(password, 10);
+
         const newUser = User.create({
             fullName,
             email,
-            password
+            password: hashedPass
+        });
+
+        const token = jwt.sign({ fullName, email, password }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        return res.status(200).json({
+            message: "user signup successfully",
+            token: token
         });
 
     } catch(err) {

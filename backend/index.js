@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import errorHandler from './middlewares/error-middleware.js';
 import userRouter from './routes/user-routes.js';
+import connectsDB from './DB/db.js';
 const app = express();
 dotenv.config();
 const port = process.env.PORT;
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
     })
 });
 
+connectsDB();
 
 app.listen(port, () => {
     console.log(`server running on port ${port}`);

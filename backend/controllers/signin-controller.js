@@ -1,6 +1,8 @@
 import User from "../models/user-model.js";
 import bcrypt from 'bcryptjs';
 import { generateAccessToken } from "../utils/generateToken.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const signin = async (req, res) => {
     try {

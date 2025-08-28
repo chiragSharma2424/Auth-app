@@ -1,4 +1,6 @@
 import User from "../models/user-model.js";
+import bcrypt from 'bcryptjs';
+import { generateAccessToken } from "../utils/generateToken.js";
 
 const signin = async (req, res) => {
     try {
@@ -10,13 +12,30 @@ const signin = async (req, res) => {
             })
         };
 
-        const noUser = User.findOne({ email });
+        const user = await User.findOne({ email });
         
-        if(!noUser) {
+        if(!user) {
             return res.status(400).json({
                 message: "user not found"
             })
         }
+
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        if(!isPasswordMatch) {
+            return res.status(400).json({
+                success: false,
+                message: "invalid credentials"
+            })
+        }
+
+        const token = generateAccessToken({email, password});
+
+        return res.status(200).json({
+            success: true,
+            message: "singin successfully",
+            token: token,
+            user: user
+        });
         
     } catch(err) {
         console.log(`error in signin controller ${err}`);

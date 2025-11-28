@@ -32,7 +32,7 @@ function Signin() {
 
           <button type="submit" className="w-full bg-indigo-500 text-white py-2 rounded-lg font-semibold hover:bg-indigo-600 transition"
               onClick={() => {
-                fetch('http://localhost:3000/api/v1/signin', {
+                fetch('http://localhost:3000/api/v1/user/signin', {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

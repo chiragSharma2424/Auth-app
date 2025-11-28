@@ -11,4 +11,4 @@ function generateRefereshToken (payload, expiresIn = '7d') {
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn });
 }
 
-export { generateAccessToken, generateAccessToken };
+export { generateAccessToken, generateRefereshToken };

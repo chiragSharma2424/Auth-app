@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from 'axios';
 
 function Signin() {
     const [email, setEmail] = useState('');
@@ -32,24 +33,13 @@ function Signin() {
 
           <button type="submit" className="w-full bg-indigo-500 text-white py-2 rounded-lg font-semibold hover:bg-indigo-600 transition"
               onClick={() => {
-                fetch('http://localhost:3000/api/v1/user/signin', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
+                axios.post('http://localhost:3000/api/v1/user/signin', {
+                  email,
+                  password
                 }).then((resp) => {
-                    return resp.json();
-                }).then((data) => {
-                    console.log(data);
-                    console.log(data.token);
-                }).catch((err) => {
-                    console.log(err);
+                  console.log(resp.data);
                 })
-          }}
+              }}
           >Sign In</button>
         </form>
       </div>

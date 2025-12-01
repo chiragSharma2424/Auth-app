@@ -3,6 +3,7 @@ import validator from 'validator';
 import dotenv from 'dotenv';
 dotenv.config();
 import bcrypt from 'bcryptjs';
+import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 
 async function signup(req, res) {
@@ -38,9 +39,30 @@ async function signup(req, res) {
 
         const token = jwt.sign({ fullName, email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+        // sending welcome mail after user signup
+        const transporter = nodemailer.createTransport({
+            host: "smtp-relay.brevo.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.BREVO_USERNAME,
+                pass: process.env.BREVO_PASSWORD
+            }
+        });
+
+
+        const mailOptions = {
+            from: "sharmachirag242004@gmail.com",
+            to: email,
+            subject: "Welcome to Our Service",
+            text: `Hi ${email},\n Welcome to our platform\n\nRegards`
+        };
+
+        await transporter.sendMail(mailOptions);
+
         return res.status(200).json({
             success: true,
-            message: "user signup successfully",
+            message: `user signup successfully and mail sent to ${email}`,
             token: token,
             user: newUser
         });

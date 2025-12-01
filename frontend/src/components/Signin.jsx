@@ -45,6 +45,7 @@ function Signin() {
                     return resp.json();
                 }).then((data) => {
                     console.log(data);
+                    console.log(data.token);
                 }).catch((err) => {
                     console.log(err);
                 })

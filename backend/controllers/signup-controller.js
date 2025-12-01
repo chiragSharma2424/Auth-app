@@ -37,7 +37,7 @@ async function signup(req, res) {
             password: hashedPass
         });
 
-        const token = jwt.sign({ fullName, email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // sending welcome mail after user signup
         const transporter = nodemailer.createTransport({
